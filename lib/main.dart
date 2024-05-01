@@ -372,7 +372,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Alerts for Today',
+                        'Today\'s Alerts',
                         style: GoogleFonts.dmSans(
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
