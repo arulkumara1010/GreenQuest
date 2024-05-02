@@ -67,6 +67,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
           color: Colors.white,
           child: Stack(
             children: [
+              BackgroundImage(),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(
@@ -217,7 +218,7 @@ class PlantGallery extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          BackgroundImage(),
+          
           GridView.count(
             crossAxisCount: 2,
             children: List.generate(4, (index) {
