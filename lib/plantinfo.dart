@@ -75,8 +75,8 @@ class _RootPageState extends State<RootPage> {
                 ),
                 SizedBox(height: 7),
                Text(
-                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere nisi diam, congue pharetra mauris eleifend vitae. Nulla fermentum a massa non condimentum. Vestibulum lacus dui, tristique eu mattis ut, dignissim eget urna. Duis imperdiet nisi vel sem.',
-                    style: TextStyle(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere nisi diam, congue pharetra mauris eleifend vitae. Nulla fermentum a massa non condimentum. Vestibulum lacus dui, tristique eu mattis ut, dignissim eget urna. Duis imperdiet nisi vel',
+                  style: TextStyle(
                         fontSize: 14,
                         color: Colors.black87,
                         fontWeight: FontWeight.w200),
