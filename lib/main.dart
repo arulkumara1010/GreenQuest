@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'plantinfo.dart';
 import 'saved.dart';
+import 'myprofile.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -154,24 +153,25 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_14.png',
-                    'Plant 1',
-                  ),
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_14.png',
+                      'Plant 1',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_12.png',
-                    'Plant 2',
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_12.png',
+                      'Plant 2',
+                    ),
                   ),
-                  ),
-                  
-                  
+
                   // Add more plant boxes here as needed
                 ],
               ),
@@ -598,9 +598,15 @@ class HomePage extends StatelessWidget {
           // } else if (index == 1) {
           //   // Navigate to Search screen
           // } ... and so on
-          if(index == 3)
+          if (index == 3) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage1()));
+          }
+
+          else if(index == 4)
           {
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomePage1()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => MyAccountPage()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
