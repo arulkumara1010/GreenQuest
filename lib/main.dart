@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'plantinfo.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Green Quest',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        textTheme: GoogleFonts.dmSansTextTheme(),
       ),
       home: const HomePage(),
     );
@@ -147,14 +151,26 @@ class HomePage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  _buildPlantBox(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                    },
+                    child : _buildPlantBox(
                     'assets/images/aloe_vera_14.png',
                     'Plant 1',
                   ),
-                  _buildPlantBox(
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                    },
+                    child : _buildPlantBox(
                     'assets/images/aloe_vera_12.png',
                     'Plant 2',
                   ),
+                  ),
+                  
+                  
                   // Add more plant boxes here as needed
                 ],
               ),
