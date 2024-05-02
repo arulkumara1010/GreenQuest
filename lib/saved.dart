@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'main.dart';
 import 'plantinfo.dart';
+import 'myprofile.dart';
 
 class HomePage1 extends StatelessWidget {
   @override
@@ -47,58 +48,63 @@ class HomePage1 extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_14.png',
-                    'Plant 1',
-                  ),
-                  ),
-                  
-                  GestureDetector(
-                    onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
-                    },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_12.png',
-                    'Plant 2',
-                  ),
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_14.png',
+                      'Plant 1',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_12.png',
-                    'Plant 3',
-                  ),
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_12.png',
+                      'Plant 2',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_14.png',
-                    'Plant 4',
-                  ),
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_12.png',
+                      'Plant 3',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_12.png',
-                    'Plant 5',
-                  ),
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_14.png',
+                      'Plant 4',
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
                     },
-                    child : _buildPlantBox(
-                    'assets/images/aloe_vera_14.png',
-                    'Plant 6',
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_12.png',
+                      'Plant 5',
+                    ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => RootPage()));
+                    },
+                    child: _buildPlantBox(
+                      'assets/images/aloe_vera_14.png',
+                      'Plant 6',
+                    ),
                   ),
                 ],
               ),
@@ -141,7 +147,11 @@ class HomePage1 extends StatelessWidget {
           //   // Navigate to Search screen
           // } ... and so on
           if (index == 0) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          } else if (index == 4) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyAccountPage()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
