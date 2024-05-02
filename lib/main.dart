@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Green Quest',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        textTheme: GoogleFonts.dmSansTextTheme(),
       ),
       home: const HomePage(),
     );
