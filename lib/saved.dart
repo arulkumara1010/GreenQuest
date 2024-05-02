@@ -34,7 +34,8 @@ class HomePage1 extends StatelessWidget {
             ),
             Text(
               'Saved',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              style: GoogleFonts.dmSans(
+                  fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.0),
             Expanded(
