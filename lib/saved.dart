@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_quest/rewards.dart';
 import 'main.dart';
 import 'plantinfo.dart';
 import 'myprofile.dart';
@@ -152,6 +153,9 @@ class HomePage1 extends StatelessWidget {
           } else if (index == 4) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => MyAccountPage()));
+          } else if (index == 2) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Rewards()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(

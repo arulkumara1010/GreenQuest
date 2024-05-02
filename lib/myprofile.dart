@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'main.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'plantinfo.dart';
 import 'package:google_fonts/google_fonts.dart';
 

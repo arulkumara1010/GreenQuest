@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'plantinfo.dart';
 import 'saved.dart';
 import 'myprofile.dart';
+import 'rewards.dart';
 
 void main() {
   runApp(const MyApp());
@@ -597,7 +598,12 @@ class HomePage extends StatelessWidget {
           //   // Navigate to Home screen
           // } else if (index == 1) {
           //   // Navigate to Search screen
+
           // } ... and so on
+          if (index == 2) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Rewards()));
+          }
           if (index == 3) {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => HomePage1()));
