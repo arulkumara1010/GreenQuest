@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'plantinfo.dart';
+import 'saved.dart';
 
 void main() {
   runApp(const MyApp());
@@ -597,6 +598,10 @@ class HomePage extends StatelessWidget {
           // } else if (index == 1) {
           //   // Navigate to Search screen
           // } ... and so on
+          if(index == 3)
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomePage1()));
+          }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700), // Custom font example
