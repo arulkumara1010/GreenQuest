@@ -7,7 +7,8 @@ import 'myprofile.dart';
 
 class HomePage1 extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(16.0),

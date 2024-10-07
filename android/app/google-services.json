@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1047025780446",
+    "project_id": "greenquest-af32c",
+    "storage_bucket": "greenquest-af32c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047025780446:android:8dc6aec50023f34617644f",
+        "android_client_info": {
+          "package_name": "com.example.green_quest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATZu5okAsMi-ytZICsfwdV1hsuaC-6Uwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
