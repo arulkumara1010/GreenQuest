@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'plantinfo.dart';
@@ -13,7 +15,7 @@ class BackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
               'https://i.pinimg.com/736x/c7/5d/82/c75d82a1b2bd01c7d7cdbd19ff6b9f79.jpg'),
@@ -41,10 +43,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
+          preferredSize: const Size.fromHeight(80.0),
           child: AppBar(
             backgroundColor: Colors.white,
-            title: Text(
+            title: const Text(
               'My Account',
               style: TextStyle(
                 fontSize: 24,
@@ -54,7 +56,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             ),
             centerTitle: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -67,7 +69,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             children: [
               BackgroundImage(),
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -76,48 +78,48 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       backgroundImage: NetworkImage(
                           'https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1224184972.1714521600&semt=ais'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       email,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       address,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       phone,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               'Plants Grown',
                               style: TextStyle(fontSize: 18),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               '$plantsPlanted',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -128,14 +130,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green.shade300),
+                            WidgetStateProperty.all(Colors.green.shade300),
                       ),
-                      child: Text(
+                      child: const Text(
                         'View plants grown',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -144,14 +146,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green.shade300),
+                            WidgetStateProperty.all(Colors.green.shade300),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Grow a Plant',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -177,21 +179,20 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.green.shade300),
+                            WidgetStateProperty.all(Colors.green.shade300),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Edit Profile',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         SystemNavigator.pop();
                       },
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.white),
+                        backgroundColor: WidgetStateProperty.all(Colors.white),
                       ),
                       child: Text(
                         'Logout',
@@ -212,19 +213,20 @@ class PlantGallery extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Plant Gallery'),
+        title: const Text('Plant Gallery'),
       ),
       body: Stack(
         children: [
-          
           GridView.count(
             crossAxisCount: 2,
             children: List.generate(4, (index) {
               return Center(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => RootPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RootPage()));
                   },
                   child: _buildPlantBox(
                     'assets/images/aloe_vera_14.png',
@@ -238,13 +240,14 @@ class PlantGallery extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildPlantBox(String imagePath, String plantName) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
       child: SizedBox(
         width: 186,
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 24, 0, 9),
+          padding: const EdgeInsets.fromLTRB(20, 24, 0, 9),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -252,7 +255,7 @@ class PlantGallery extends StatelessWidget {
                 height: 130,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color(0x54D9D9D9),
+                  color: const Color(0x54D9D9D9),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
@@ -262,7 +265,7 @@ class PlantGallery extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w500,
                       fontSize: 10,
-                      color: Color(0xFF61AF2B),
+                      color: const Color(0xFF61AF2B),
                     ),
                   ),
                 ),
@@ -277,7 +280,7 @@ class PlantGallery extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: Color(0xFF333333),
+                      color: const Color(0xFF333333),
                     ),
                   ),
                 ),
@@ -313,7 +316,7 @@ class EditProfilePage extends StatefulWidget {
   final String address;
   final String phone;
 
-  EditProfilePage({
+  const EditProfilePage({
     required this.name,
     required this.email,
     required this.address,
@@ -344,7 +347,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
       ),
       body: Stack(
         children: [
@@ -356,21 +359,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 TextField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
+                  decoration: const InputDecoration(labelText: 'Name'),
                 ),
                 TextField(
                   controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
                 TextField(
                   controller: _addressController,
-                  decoration: InputDecoration(labelText: 'Address'),
+                  decoration: const InputDecoration(labelText: 'Address'),
                 ),
                 TextField(
                   controller: _phoneController,
-                  decoration: InputDecoration(labelText: 'Phone'),
+                  decoration: const InputDecoration(labelText: 'Phone'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context, {
@@ -380,7 +383,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       'phone': _phoneController.text,
                     });
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
               ],
             ),

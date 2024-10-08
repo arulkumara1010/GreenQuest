@@ -71,15 +71,15 @@ class HomePage extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             CupertinoIcons.search,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             CupertinoIcons.add_circled,
                             color: Colors.black,
                           ),
@@ -154,8 +154,10 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -164,8 +166,10 @@ class HomePage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -177,11 +181,11 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Container(
                   height: 1.0,
                   width: 80.0,
-                  color: Color(0xFFCBCACA),
+                  color: const Color(0xFFCBCACA),
                 ),
               ),
               Container(
@@ -224,18 +228,18 @@ class HomePage extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment:
@@ -248,7 +252,7 @@ class HomePage extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'Description line 1',
                         style: GoogleFonts.dmSans(
@@ -260,18 +264,18 @@ class HomePage extends StatelessWidget {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment:
@@ -284,7 +288,7 @@ class HomePage extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'Description line 1',
                         style: GoogleFonts.dmSans(
@@ -296,23 +300,23 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment:
@@ -325,7 +329,7 @@ class HomePage extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'Description line 1',
                         style: GoogleFonts.dmSans(
@@ -337,18 +341,18 @@ class HomePage extends StatelessWidget {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment:
@@ -361,7 +365,7 @@ class HomePage extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'Description line 1',
                         style: GoogleFonts.dmSans(
@@ -373,13 +377,13 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Container(
                   height: 1.0,
                   width: 80.0,
-                  color: Color(0xFFCBCACA),
+                  color: const Color(0xFFCBCACA),
                 ),
               ),
               Container(
@@ -422,18 +426,18 @@ class HomePage extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,7 +450,7 @@ class HomePage extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           'Description line 1',
                           style: GoogleFonts.dmSans(
@@ -457,31 +461,31 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Spacer(),
-                  Icon(
+                  const Spacer(),
+                  const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.grey,
                   ),
-                  SizedBox(width: 20), // Right arrow
+                  const SizedBox(width: 20), // Right arrow
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -494,7 +498,7 @@ class HomePage extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           'Description line 1',
                           style: GoogleFonts.dmSans(
@@ -505,31 +509,31 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Spacer(),
-                  Icon(
+                  const Spacer(),
+                  const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.grey,
                   ),
-                  SizedBox(width: 20), // Right arrow
+                  const SizedBox(width: 20), // Right arrow
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       color: Colors.green
                           .withOpacity(0.1), // Adjust color as needed
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.eco,
                       color: Colors.green, // Adjust color as needed
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -542,7 +546,7 @@ class HomePage extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           'Description line 1',
                           style: GoogleFonts.dmSans(
@@ -553,12 +557,12 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Spacer(),
-                  Icon(
+                  const Spacer(),
+                  const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.grey,
                   ),
-                  SizedBox(width: 20), // Right arrow
+                  const SizedBox(width: 20), // Right arrow
                 ],
               ),
             ],
@@ -566,7 +570,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -601,18 +605,15 @@ class HomePage extends StatelessWidget {
 
           // } ... and so on
           if (index == 2) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Rewards()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Rewards()));
           }
           if (index == 3) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage1()));
-          }
-
-          else if(index == 4)
-          {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MyAccountPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage1()));
+          } else if (index == 4) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyAccountPage()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
@@ -625,11 +626,11 @@ class HomePage extends StatelessWidget {
 
   Widget _buildPlantBox(String imagePath, String plantName) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
       child: SizedBox(
         width: 186,
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 24, 0, 9),
+          padding: const EdgeInsets.fromLTRB(20, 24, 0, 9),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -637,7 +638,7 @@ class HomePage extends StatelessWidget {
                 height: 130,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color(0x54D9D9D9),
+                  color: const Color(0x54D9D9D9),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
@@ -647,7 +648,7 @@ class HomePage extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w500,
                       fontSize: 10,
-                      color: Color(0xFF61AF2B),
+                      color: const Color(0xFF61AF2B),
                     ),
                   ),
                 ),
@@ -662,7 +663,7 @@ class HomePage extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: Color(0xFF333333),
+                      color: const Color(0xFF333333),
                     ),
                   ),
                 ),
@@ -691,4 +692,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-

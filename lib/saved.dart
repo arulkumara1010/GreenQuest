@@ -6,12 +6,13 @@ import 'plantinfo.dart';
 import 'myprofile.dart';
 
 class HomePage1 extends StatelessWidget {
+  const HomePage1({super.key});
+
   @override
-  Widget build(BuildContext context) 
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         color: Colors.white, // Subtle green background
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -32,7 +33,7 @@ class HomePage1 extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
@@ -40,7 +41,7 @@ class HomePage1 extends StatelessWidget {
               style: GoogleFonts.dmSans(
                   fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -50,8 +51,10 @@ class HomePage1 extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -60,8 +63,10 @@ class HomePage1 extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -70,8 +75,10 @@ class HomePage1 extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -80,8 +87,10 @@ class HomePage1 extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -90,8 +99,10 @@ class HomePage1 extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -100,8 +111,10 @@ class HomePage1 extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -115,7 +128,7 @@ class HomePage1 extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -149,14 +162,14 @@ class HomePage1 extends StatelessWidget {
           //   // Navigate to Search screen
           // } ... and so on
           if (index == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           } else if (index == 4) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => MyAccountPage()));
           } else if (index == 2) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Rewards()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Rewards()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
@@ -169,11 +182,11 @@ class HomePage1 extends StatelessWidget {
 
   Widget _buildPlantBox(String imagePath, String plantName) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
       child: SizedBox(
         width: 186,
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 24, 0, 9),
+          padding: const EdgeInsets.fromLTRB(20, 24, 0, 9),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -181,7 +194,7 @@ class HomePage1 extends StatelessWidget {
                 height: 130,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color(0x54D9D9D9),
+                  color: const Color(0x54D9D9D9),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
@@ -191,7 +204,7 @@ class HomePage1 extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w500,
                       fontSize: 10,
-                      color: Color(0xFF61AF2B),
+                      color: const Color(0xFF61AF2B),
                     ),
                   ),
                 ),
@@ -206,7 +219,7 @@ class HomePage1 extends StatelessWidget {
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: Color(0xFF333333),
+                      color: const Color(0xFF333333),
                     ),
                   ),
                 ),
@@ -277,7 +290,8 @@ class PlantDetailPage extends StatelessWidget {
   final String description;
   final String imagePath;
 
-  PlantDetailPage(this.plantName, this.description, this.imagePath);
+  const PlantDetailPage(this.plantName, this.description, this.imagePath,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +304,7 @@ class PlantDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(imagePath, width: 200.0, height: 200.0),
-            Text(description, style: TextStyle(fontSize: 18.0)),
+            Text(description, style: const TextStyle(fontSize: 18.0)),
           ],
         ),
       ),
@@ -299,13 +313,15 @@ class PlantDetailPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Green Quest',
       home: HomePage1(),
     );

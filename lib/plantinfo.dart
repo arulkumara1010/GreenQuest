@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -73,16 +72,13 @@ class _RootPageState extends State<RootPage> {
                       fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: 7),
-               Text(
-
+                Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere nisi diam, congue pharetra mauris eleifend vitae. Nulla fermentum a massa non condimentum. Vestibulum lacus dui, tristique eu mattis ut, dignissim eget urna. Duis imperdiet nisi vel',
                   style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w200),
-                  ),
-                  
-                
+                      fontSize: 14,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w200),
+                ),
                 Text(
                   'Read more..',
                   style: TextStyle(
@@ -117,7 +113,7 @@ class _RootPageState extends State<RootPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Container(
                     width: 97,
                     height: 24,
@@ -136,7 +132,7 @@ class _RootPageState extends State<RootPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Container(
                     width: 89,
                     height: 24,
@@ -350,7 +346,6 @@ class _RootPageState extends State<RootPage> {
               child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                   
                   },
                   child: Icon(
                     Icons.close,
@@ -367,30 +362,29 @@ class _RootPageState extends State<RootPage> {
                   });
                 },
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(HexColor('#61AF2B')),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  backgroundColor: WidgetStateProperty.all(HexColor('#61AF2B')),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   )),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(16)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                 ),
                 child: Center(
                   child: Row(
                     children: [
-                      SizedBox(width: 85),
+                      const SizedBox(width: 85),
                       Icon(
                         counter == 0 ? Icons.bookmark_border : Icons.bookmark,
                         color: Colors.white,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         counter == 0 ? 'Save this plant' : 'Unsave plant',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(width: 85),
+                      const SizedBox(width: 85),
                     ],
                   ),
                 )),
