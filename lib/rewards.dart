@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'main.dart';
+import 'homepage.dart';
 import 'saved.dart';
 import 'myprofile.dart';
 
@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Rewards extends StatelessWidget {
-  const Rewards({Key? key});
+  const Rewards({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class Rewards extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 120), // Add some space between elements
+                const SizedBox(height: 120), // Add some space between elements
                 // Stack to overlay image, icon, and text
                 Stack(
                   alignment: Alignment.center,
@@ -72,14 +72,14 @@ class Rewards extends StatelessWidget {
                     Column(
                       children: [
                         // Add the leaf icon
-                        Icon(
+                        const Icon(
                           Icons.energy_savings_leaf,
                           size: 25, // Adjust icon size as needed
                           color: Colors.green, // Change icon color as needed
                         ),
-                        SizedBox(height: 10), // Add some space between elements
+                        const SizedBox(height: 10), // Add some space between elements
                         // Add the small text below the leaf icon
-                        Text(
+                        const Text(
                           'Eco Tokens',
                           style: TextStyle(
                             fontSize: 16,
@@ -111,7 +111,7 @@ class Rewards extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 80,
                 ),
                 Container(
@@ -164,7 +164,7 @@ class Rewards extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               8), // Make container rounded
                         ),
-                        margin: EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: 10),
                       ),
                       Container(
                         width: 150,
@@ -174,7 +174,7 @@ class Rewards extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               8), // Make container rounded
                         ),
-                        margin: EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: 10),
                       ),
                       Container(
                         width: 150,
@@ -184,7 +184,7 @@ class Rewards extends StatelessWidget {
                           borderRadius: BorderRadius.circular(
                               8), // Make container rounded
                         ),
-                        margin: EdgeInsets.only(right: 10),
+                        margin: const EdgeInsets.only(right: 10),
                       ),
                     ],
                   ),
@@ -202,7 +202,7 @@ class Rewards extends StatelessWidget {
           ),
           child: BottomNavigationBar(
             // Set other properties of the BottomNavigationBar as needed
-            items: [
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
@@ -241,7 +241,7 @@ class Rewards extends StatelessWidget {
               if (index == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               } else if (index == 3) {
                 Navigator.push(
