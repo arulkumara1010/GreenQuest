@@ -1,8 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -23,52 +22,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Plant {
-  final int id;
-  final String commonName;
-  final List<String> scientificName;
-  final List<String> otherName;
-  final String cycle;
-  final String watering;
-  final List<String> sunlight;
-  final String imageUrl;
-  final String description;
-  final String care_level;
-  final String dimension;
-
-  Plant({
-    required this.id,
-    required this.commonName,
-    required this.scientificName,
-    required this.otherName,
-    required this.cycle,
-    required this.watering,
-    required this.sunlight,
-    required this.imageUrl,
-    required this.description,
-    required this.care_level,
-    required this.dimension,
-
-  });
-
-  factory Plant.fromJson(Map<String, dynamic> json) {
-    return Plant(
-      id: json['id'],
-      commonName: json['common_name'] ?? 'Unknown Plant',
-      scientificName: List<String>.from(json['scientific_name']),
-      otherName: List<String>.from(json['other_name']),
-      cycle: json['cycle'] ?? 'Unknown Cycle',
-      watering: json['watering'] ?? 'Unknown Watering Info',
-      sunlight: List<String>.from(json['sunlight']),
-      imageUrl: json['default_image']['regular_url'] ?? '',
-      description: json['description'] ?? 'Unknown Description',
-      care_level: json['care_level'] ?? 'Unknown Care Level',
-      dimension: json['dimension'] ?? 'Unknown Dimension',
-
-    );
-  }
-}
-
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
 
@@ -77,56 +30,22 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  Plant? plant;
-  bool isLoading = true;
   var counter = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchPlantData();
-  }
-
-  Future<void> fetchPlantData() async {
-    const url = 'https://perenual.com/api/species/details/1?key=sk-7MsX67061934953f87182';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        plant = Plant.fromJson(data);
-        isLoading = false;
-      });
-    } else {
-      throw Exception('Failed to load plant data');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          plant?.imageUrl.isNotEmpty == true
-              ? Image.network(
-                  plant!.imageUrl,
-                  width: screenWidth,
-                  height: screenHeight * 0.4,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/images/image_1.jpeg',
-                  width: screenWidth,
-                  height: screenHeight * 0.4,
-                  fit: BoxFit.cover,
-                ),
+          Image.asset(
+            'assets/images/image_1.jpeg',
+            width: screenWidth,
+            height: screenHeight * 0.4, // Adjust image height dynamically
+            fit: BoxFit.cover, // Cover the screen width properly
+          ),
           Container(
             margin: EdgeInsets.only(top: screenHeight * 0.35),
             padding: const EdgeInsets.all(16),
@@ -136,91 +55,84 @@ class _RootPageState extends State<RootPage> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  plant?.commonName ?? 'Plant name',
-                  style: const TextStyle(
+                  'Plant name',
+                  style: TextStyle(
                     fontSize: 30,
                     height: 3,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(height: 32),
-                Container(
-                  height: screenHeight * 0.17,
-                  child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                    'Description : ${plant?.description ?? 'Unknown'}',
-                    style: GoogleFonts.inter(fontSize: 12),
-                  ),
-                    Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Scientific Name: ${plant?.scientificName.join(', ')}\n'
-                      'Other Names: ${plant?.otherName.join(', ')}\n'
-                      'Cycle: ${plant?.cycle}\n'
-                      'Watering: ${plant?.watering}\n'
-                      'Sunlight: ${plant?.sunlight.join(', ')}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w200),
-                    ),
-                    ),
-
-
-                    ],
-                  )
-                  ),
+                SizedBox(height: 10),
+                Text(
+                  'Description',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 7),
-                
-                const SizedBox(height: 7),
-                
-                
-                const SizedBox(height: 10),
+                SizedBox(height: 7),
+                Text(
+                  'From Wikipedia, the free encyclopedia',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: 7),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere nisi diam, congue pharetra mauris eleifend vitae...',
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w200),
+                ),
+                Text(
+                  'Read more..',
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: 10),
               ],
             ),
           ),
           Positioned(
-            top: screenHeight * 0.45,
+            top: screenHeight * 0.45, // Adjusted position based on screen height
             left: 16,
             child: Row(
               children: [
-                _buildTagContainer(plant?.cycle ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer('Indoor', '#F0F3F6', '#696969'),
                 const SizedBox(width: 10),
-                _buildTagContainer(plant?.watering ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer('Pet Friendly', '#F0F3F6', '#696969'),
                 const SizedBox(width: 10),
-                _buildTagContainer(plant?.scientificName.first ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer('Malvaceae', '#F0F3F6', '#696969'),
               ],
             ),
           ),
           Positioned(
-            top: screenHeight * 0.7,
+            top: screenHeight * 0.7, // Adjusted based on screen height
             left: 16,
             child: Row(
               children: [
                 _buildFeatureBox(
-                    Icons.height, 'Height',plant?.dimension ?? 'N/A', '#EEF7E8', '#4B8364'),
+                    Icons.height, 'Height', 'Small', '#EEF7E8', '#4B8364'),
                 const SizedBox(width: 65),
-                _buildFeatureBox(Icons.water_drop, 'Water',
-                    plant?.watering ?? 'N/A', '#E6EAFA', '#5676DC'),
+                _buildFeatureBox(Icons.water_drop, 'Water', '300ml',
+                    '#E6EAFA', '#5676DC'),
               ],
             ),
           ),
           Positioned(
-            top: screenHeight * 0.8,
+            top: screenHeight * 0.8, // Adjusted position
             left: 16,
             child: Row(
               children: [
                 _buildFeatureBox(
-                    Icons.sunny, 'Light', plant?.sunlight.first ?? 'N/A', '#FCF1E3', '#E6B44C'),
+                    Icons.sunny, 'Light', 'Normal', '#FCF1E3', '#E6B44C'),
                 const SizedBox(width: 65),
-                _buildFeatureBox(Icons.eco, 'Care Level', plant?.care_level ?? 'N/A',
+                _buildFeatureBox(Icons.thermostat, 'Humidity', '55%',
                     '#F8E8F8', '#A559D9'),
               ],
             ),
@@ -239,7 +151,7 @@ class _RootPageState extends State<RootPage> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.9,
+            top: screenHeight * 0.9, // Adjusted button position
             left: 16,
             right: 16,
             child: ElevatedButton(
@@ -260,7 +172,7 @@ class _RootPageState extends State<RootPage> {
               child: Center(
                 child: Row(
                   children: [
-                    const Spacer(),
+                    const Spacer(), // Add space to center the content
                     Icon(
                       counter == 0 ? Icons.bookmark_border : Icons.bookmark,
                       color: Colors.white,
