@@ -148,7 +148,7 @@ class _RootPageState extends State<RootPage> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                Container(
+                SizedBox(
                   height: screenHeight * 0.17,
                   child: SingleChildScrollView(
                   child: Column(
@@ -205,7 +205,7 @@ class _RootPageState extends State<RootPage> {
             child: Row(
               children: [
                 _buildFeatureBox(
-                    Icons.height, 'Height',plant?.dimension ?? 'N/A', '#EEF7E8', '#4B8364'),
+                    Icons.height, 'Height',plant?.dimension.split(': ')[1] ?? 'N/A', '#EEF7E8', '#4B8364'),
                 const SizedBox(width: 65),
                 _buildFeatureBox(Icons.water_drop, 'Water',
                     plant?.watering ?? 'N/A', '#E6EAFA', '#5676DC'),
@@ -250,11 +250,11 @@ class _RootPageState extends State<RootPage> {
               },
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(HexColor('#61AF2B')),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    WidgetStateProperty.all(HexColor('#61AF2B')),
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),
-                padding: MaterialStateProperty.all(
+                padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(vertical: 16)),
               ),
               child: Center(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'plantinfo.dart';
+import 'plantinfoopy.dart';
 import 'saved.dart';
 import 'myprofile.dart';
 import 'rewards.dart';
@@ -157,17 +158,17 @@ class HomePage extends StatelessWidget {
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
-                      'Plant 1',
+                      'Silver Fir',
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
+                          MaterialPageRoute(builder: (context) => const RootPage1()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
-                      'Plant 2',
+                      'Pyramidalis',
                     ),
                   ),
 
@@ -604,7 +605,7 @@ class HomePage extends StatelessWidget {
           }
           if (index == 3) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage1()));
+                context, MaterialPageRoute(builder: (context) => const HomePage1()));
           }
 
           else if(index == 4)

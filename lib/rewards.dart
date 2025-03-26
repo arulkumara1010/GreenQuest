@@ -246,7 +246,7 @@ class Rewards extends StatelessWidget {
               } else if (index == 3) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage1()),
+                  MaterialPageRoute(builder: (context) => const HomePage1()),
                 );
               } else if (index == 4) {
                 Navigator.push(
