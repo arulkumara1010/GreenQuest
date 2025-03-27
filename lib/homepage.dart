@@ -6,22 +6,224 @@ import 'plantinfoopy.dart';
 import 'saved.dart';
 import 'myprofile.dart';
 import 'rewards.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'dart:convert';
+
 import 'search_page.dart';
 
+import 'package:http/http.dart' as http;
 
+class PlantIdentificationScreen extends StatefulWidget {
+  const PlantIdentificationScreen({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  @override
+  _PlantIdentificationScreenState createState() =>
+      _PlantIdentificationScreenState();
+}
+
+class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
+  File? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+  bool _isLoading = false;
+
+  // Method to open camera
+  Future<void> _takePicture() async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 80,
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+
+        // Identify the plant
+        await _identifyPlant();
+      }
+    } catch (e) {
+      print('Error taking picture: $e');
+      _showErrorSnackBar('Failed to take picture: $e');
+    }
+  }
+
+  // Method to open gallery
+  Future<void> _pickFromGallery() async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 80,
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+
+        // Identify the plant
+        await _identifyPlant();
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+      _showErrorSnackBar('Failed to pick image: $e');
+    }
+  }
+
+  // Method to show error snackbar
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  // Method to identify plant
+  Future<void> _identifyPlant() async {
+    if (_imageFile == null) {
+      _showErrorSnackBar('No image selected');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Prepare the multipart request
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            'https://my-api.plantnet.org/v2/identify/all?api-key=2b10AAFEh22qI1Dq0IWaNgdxWe'),
+      );
+
+      // Attach the image file
+      request.files
+          .add(await http.MultipartFile.fromPath('images', _imageFile!.path));
+
+      // Send the request
+      var response = await request.send();
+
+      // Check if the request was successful
+      if (response.statusCode == 200) {
+        // Parse the response
+        var responseData = await response.stream.bytesToString();
+        var jsonResponse = json.decode(responseData);
+
+        // Extract the best match
+        String bestMatch = jsonResponse['bestMatch'] ?? 'Unknown';
+        var results = jsonResponse['results'];
+        if (results != null && results.isNotEmpty) {
+          var topResult = results[0];
+          String scientificName =
+              topResult['species']['scientificName'] ?? 'Unknown';
+          double score = topResult['score'] ?? 0.0;
+
+          // Show the result in an alert dialog
+          await _showResultDialog(scientificName, score, bestMatch);
+        } else {
+          _showErrorSnackBar('No results found');
+        }
+      } else {
+        _showErrorSnackBar(
+            'Failed to identify plant. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      _showErrorSnackBar('Error identifying plant: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // Method to show result dialog
+  Future<void> _showResultDialog(
+      String scientificName, double score, String bestMatch) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Plant Identification Result'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Image.file(_imageFile!),
+                const SizedBox(height: 10),
+                Text('Scientific Name: $scientificName'),
+                Text('Confidence Score: ${(score * 100).toStringAsFixed(2)}%'),
+                Text('Best Match: $bestMatch'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Green Quest',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        textTheme: GoogleFonts.dmSansTextTheme(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plant Identification'),
       ),
-      home: const HomePage(),
+      body: Center(
+        child: _isLoading
+            ? const CircularProgressIndicator()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _takePicture,
+                    icon: const Icon(Icons.camera_alt),
+                    label: const Text('Take a Picture'),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(250, 50),
+                      textStyle: GoogleFonts.dmSans(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: _pickFromGallery,
+                    icon: const Icon(Icons.photo_library),
+                    label: const Text('Choose from Gallery'),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(250, 50),
+                      textStyle: GoogleFonts.dmSans(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  if (_imageFile != null)
+                    Image.file(
+                      _imageFile!,
+                      width: 300,
+                      height: 300,
+                      fit: BoxFit.cover,
+                    )
+                  else
+                    Text(
+                      'No image selected',
+                      style: GoogleFonts.dmSans(),
+                    ),
+                ],
+              ),
+      ),
     );
   }
 }
@@ -99,7 +301,14 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const PlantIdentificationScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -622,14 +831,11 @@ class HomePage extends StatelessWidget {
                 context, MaterialPageRoute(builder: (context) => const Rewards()));
           }
           if (index == 3) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const HomePage1()));
-          }
-
-          else if(index == 4)
-          {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MyAccountPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage1()));
+          } else if (index == 4) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyAccountPage()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
@@ -709,4 +915,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
