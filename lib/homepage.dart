@@ -6,21 +6,137 @@ import 'plantinfoopy.dart';
 import 'saved.dart';
 import 'myprofile.dart';
 import 'rewards.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
+class PlantIdentificationScreen extends StatefulWidget {
+  const PlantIdentificationScreen({Key? key}) : super(key: key);
 
+  @override
+  _PlantIdentificationScreenState createState() =>
+      _PlantIdentificationScreenState();
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
+  File? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+
+  // Method to open camera
+  Future<void> _takePicture() async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 80,
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+
+        // TODO: Implement plant identification logic
+        _identifyPlant();
+      }
+    } catch (e) {
+      print('Error taking picture: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to take picture: $e')),
+      );
+    }
+  }
+
+  // Method to open gallery (optional alternative)
+  Future<void> _pickFromGallery() async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        imageQuality: 80,
+      );
+
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+
+        // TODO: Implement plant identification logic
+        _identifyPlant();
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to pick image: $e')),
+      );
+    }
+  }
+
+  // Placeholder method for plant identification
+  void _identifyPlant() {
+    if (_imageFile != null) {
+      // Here you would typically:
+      // 1. Send the image to a plant identification API
+      // 2. Process the response
+      // 3. Show the identification results
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Plant Identification'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.file(_imageFile!),
+              const SizedBox(height: 10),
+              const Text(
+                  'Identifying plant...\nThis is where you would integrate a plant identification API'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Green Quest',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        textTheme: GoogleFonts.dmSansTextTheme(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plant Identification'),
       ),
-      home: const HomePage(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+              onPressed: _takePicture,
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Take a Picture'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: _pickFromGallery,
+              icon: const Icon(Icons.photo_library),
+              label: const Text('Choose from Gallery'),
+            ),
+            const SizedBox(height: 20),
+            _imageFile != null
+                ? Image.file(
+                    _imageFile!,
+                    width: 300,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  )
+                : const Text('No image selected'),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -91,7 +207,14 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const PlantIdentificationScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -153,8 +276,10 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -163,8 +288,10 @@ class HomePage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage1()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage1()));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -600,18 +727,15 @@ class HomePage extends StatelessWidget {
 
           // } ... and so on
           if (index == 2) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Rewards()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Rewards()));
           }
           if (index == 3) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const HomePage1()));
-          }
-
-          else if(index == 4)
-          {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MyAccountPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage1()));
+          } else if (index == 4) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MyAccountPage()));
           }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
@@ -690,4 +814,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
