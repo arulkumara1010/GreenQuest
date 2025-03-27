@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_quest/rewards.dart';
+import 'package:green_quest/search_page.dart';
 import 'homepage.dart';
 import 'plantinfo.dart';
 import 'myprofile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage1 extends StatelessWidget {
   const HomePage1({super.key});
@@ -17,106 +20,97 @@ class HomePage1 extends StatelessWidget {
         color: Colors.white, // Subtle green background
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+            children: [
             Container(
               color: Colors.white,
               padding: const EdgeInsets.only(top: 40.0),
               child: Center(
-                child: Text(
-                  'Green Quest',
-                  style: GoogleFonts.dmSans(
-                    textStyle: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              child: Text(
+                'Green Quest',
+                style: GoogleFonts.dmSans(
+                textStyle: const TextStyle(
+                  color: Colors.green,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
                 ),
+                ),
+              ),
               ),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Saved',
+              'My Plants',
               style: GoogleFonts.dmSans(
-                  fontSize: 24.0, fontWeight: FontWeight.bold),
+                fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 1.2,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_14.png',
-                      'Plant 1',
+              child: FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data == null) {
+                return const Center(child: Text('No saved plants found.'));
+                }
+
+                final userData = snapshot.data!.data() as Map<String, dynamic>;
+                final savedPlants = userData['saved_plants'] as List<dynamic>?;
+
+                if (savedPlants == null || savedPlants.isEmpty) {
+                return const Center(child: Text('No saved plants found.'));
+                }
+
+                return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.2,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10.0,
+                ),
+                itemCount: savedPlants.length,
+                itemBuilder: (context, index) {
+                  final plant = savedPlants[index] as Map<String, dynamic>;
+                  final plantId = plant['id'];
+                  final commonName = plant['commonName'];
+
+                  return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RootPage(id: plantId),
                     ),
+                    );
+                  },
+                  child: _buildPlantBox(
+                    'assets/images/aloe_vera_14.png', // Replace with actual image if available
+                    commonName,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_12.png',
-                      'Plant 2',
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_12.png',
-                      'Plant 3',
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_14.png',
-                      'Plant 4',
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_12.png',
-                      'Plant 5',
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
-                    },
-                    child: _buildPlantBox(
-                      'assets/images/aloe_vera_14.png',
-                      'Plant 6',
-                    ),
-                  ),
-                ],
+                  );
+                },
+                );
+              },
               ),
             ),
-          ],
+            ],
+
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            // Modify the colors as needed
+            canvasColor: Colors.white, // Background color
+            primaryColor: Colors.green, // Active item color
+            textTheme: Theme.of(context).textTheme.copyWith(),
+          ),
+          child: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -132,7 +126,7 @@ class HomePage1 extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
-            label: 'Saved',
+            label: 'My Plants',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -160,11 +154,16 @@ class HomePage1 extends StatelessWidget {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => const Rewards()));
           }
+          else if (index == 1) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const SearchPage()));
+          }
         },
         selectedLabelStyle: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700), // Custom font example
         unselectedLabelStyle: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700), // Custom font example
+      ),
       ),
     );
   }
@@ -189,7 +188,7 @@ class HomePage1 extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(12, 55, 12, 30),
                   child: Text(
-                    'Fits well',
+                    '',
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w500,
                       fontSize: 10,

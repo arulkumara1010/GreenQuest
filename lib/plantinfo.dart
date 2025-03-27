@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +20,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         textTheme: GoogleFonts.dmSansTextTheme(),
       ),
-      home: const RootPage(),
+      home: const RootPage(id: 1,),
     );
   }
 }
+
+
 
 class Plant {
   final int id;
@@ -70,25 +74,83 @@ class Plant {
 }
 
 class RootPage extends StatefulWidget {
-  const RootPage({super.key});
+  final int id;
+
+  const RootPage({super.key, required this.id});
 
   @override
-  State<RootPage> createState() => _RootPageState();
+  State<RootPage> createState() => _RootPageState(id);
 }
 
+
+
 class _RootPageState extends State<RootPage> {
+  final int id;
+
+  _RootPageState(this.id);
   Plant? plant;
   bool isLoading = true;
-  var counter = 1;
+  var counter = 0;
+
+  Future<void> checkIfPlantIsSaved() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        DocumentSnapshot userData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+        if (userData.exists) {
+          List<dynamic> savedPlants = userData['saved_plants'] ?? [];
+          bool isPlantSaved = savedPlants.any((plant) => plant['id'] == id);
+          setState(() {
+            counter = isPlantSaved ? 1 : 0;
+          });
+        }
+      }
+    } catch (e) {
+      print("Error checking if plant is saved: $e");
+    }
+  }
+
+  
+
+  String name = '';
+  
+  Future<void> fetchUserData() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        DocumentSnapshot userData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+        if (userData.exists) {
+          setState(() {
+            name = userData['name'];
+            
+          });
+        }
+      }
+    } catch (e) {
+      print("Error fetching user data: $e");
+    }
+  }
+
+
+
+
 
   @override
   void initState() {
     super.initState();
-    fetchPlantData();
+    fetchPlantData(id);
+    fetchUserData();
+    checkIfPlantIsSaved();
   }
 
-  Future<void> fetchPlantData() async {
-    const url = 'https://perenual.com/api/species/details/1?key=sk-7MsX67061934953f87182';
+  Future<void> fetchPlantData(int id) async {
+    final url = 'https://perenual.com/api/species/details/$id?key=sk-Ay3Q67e5a5db867849453';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -243,11 +305,36 @@ class _RootPageState extends State<RootPage> {
             left: 16,
             right: 16,
             child: ElevatedButton(
-              onPressed: () {
+                onPressed: () {
                 setState(() {
                   counter = counter == 0 ? 1 : 0;
+                  if (counter == 1) {
+                  User? currentUser = FirebaseAuth.instance.currentUser;
+                  if (currentUser != null && plant != null) {
+                    FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(currentUser.uid)
+                      .update({
+                    'saved_plants': FieldValue.arrayUnion([
+                      {'id': plant!.id, 'commonName': plant!.commonName}
+                    ])
+                    });
+                  }
+                  } else {
+                  User? currentUser = FirebaseAuth.instance.currentUser;
+                  if (currentUser != null && plant != null) {
+                    FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(currentUser.uid)
+                      .update({
+                    'saved_plants': FieldValue.arrayRemove([
+                      {'id': plant!.id, 'commonName': plant!.commonName}
+                    ])
+                    });
+                  }
+                  }
                 });
-              },
+                },
               style: ButtonStyle(
                 backgroundColor:
                     WidgetStateProperty.all(HexColor('#61AF2B')),
@@ -267,7 +354,7 @@ class _RootPageState extends State<RootPage> {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      counter == 0 ? 'Save this plant' : 'Unsave plant',
+                      counter == 0 ? 'Grow this plant' : 'Remove plant',
                       style: const TextStyle(
                           fontSize: 18,
                           color: Colors.white,

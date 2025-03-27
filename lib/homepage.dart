@@ -6,6 +6,7 @@ import 'plantinfoopy.dart';
 import 'saved.dart';
 import 'myprofile.dart';
 import 'rewards.dart';
+import 'search_page.dart';
 
 
 
@@ -31,8 +32,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
+          padding: const EdgeInsets.all(16.0),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,7 +72,12 @@ class HomePage extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SearchPage()));
+                          },
                           icon: const Icon(
                             CupertinoIcons.search,
                             color: Colors.black,
@@ -154,7 +162,7 @@ class HomePage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage()));
+                          MaterialPageRoute(builder: (context) => const RootPage(id: 1,)));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -164,7 +172,7 @@ class HomePage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage1()));
+                          MaterialPageRoute(builder: (context) => const RootPage(id: 10,)));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
@@ -564,7 +572,14 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            // Modify the colors as needed
+            canvasColor: Colors.white, // Background color
+            primaryColor: Colors.green, // Active item color
+            textTheme: Theme.of(context).textTheme.copyWith(),
+          ),
+        child: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -580,13 +595,14 @@ class HomePage extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
-            label: 'Saved',
+            label: 'My Plants',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
+        backgroundColor: Colors.white,
         selectedItemColor: Colors.green, // Customize as needed
         unselectedItemColor: Colors.grey, // Customize as needed
         currentIndex: 0, // Set initial index as needed
@@ -595,11 +611,13 @@ class HomePage extends StatelessWidget {
           // For example:
           // if (index == 0) {
           //   // Navigate to Home screen
-          // } else if (index == 1) {
-          //   // Navigate to Search screen
+          if (index == 1) {
+             // Navigate to Search screen
+             Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const SearchPage()));
 
-          // } ... and so on
-          if (index == 2) {
+           }
+          else if (index == 2) {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => const Rewards()));
           }
@@ -618,6 +636,7 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.w700), // Custom font example
         unselectedLabelStyle: GoogleFonts.dmSans(
             fontWeight: FontWeight.w700), // Custom font example
+      ),
       ),
     );
   }

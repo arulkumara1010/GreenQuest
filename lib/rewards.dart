@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_quest/search_page.dart';
 import 'homepage.dart';
 import 'saved.dart';
 import 'myprofile.dart';
+import 'search_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -216,9 +218,9 @@ class Rewards extends StatelessWidget {
                 label: 'Rewards',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark),
-                label: 'Saved',
-              ),
+            icon: Icon(Icons.bookmark),
+            label: 'My Plants',
+          ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Profile',
@@ -243,7 +245,14 @@ class Rewards extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()),
                 );
-              } else if (index == 3) {
+              }
+              else if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchPage()),
+                );
+              }
+              else if (index == 3) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage1()),
