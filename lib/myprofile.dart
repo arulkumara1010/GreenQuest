@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:green_quest/saved.dart';
 
 class MyAccountPage extends StatefulWidget {
   @override
@@ -117,6 +118,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to PlantGallery
+                      Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage1()),
+                );
                     },
                     style: ButtonStyle(
                       backgroundColor:
