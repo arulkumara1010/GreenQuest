@@ -41,9 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.black
-              ),
+              decoration: const BoxDecoration(color: Colors.black),
             ),
             Container(
               color: Colors.green.withOpacity(0.4),
@@ -120,7 +118,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
-
                           ),
                         ),
                       ),
@@ -202,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'phone': phone,
         'dob': dob,
         'gender': gender,
-        'rewardPoints': 0,
+        'rewardTokens': 0,
       });
 
       await user?.updateDisplayName(name);

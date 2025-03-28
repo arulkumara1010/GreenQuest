@@ -35,34 +35,31 @@ class Rewards extends StatefulWidget {
 }
 
 class RewardsState extends State<Rewards> {
-
   int rewardPoints = 0;
 
   Future<void> fetchUserData() async {
-  User? currentUser = FirebaseAuth.instance.currentUser;
-  if (currentUser != null) {
-    DocumentReference userDoc = FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser.uid);
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentReference userDoc =
+          FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
 
-    DocumentSnapshot userData = await userDoc.get();
+      DocumentSnapshot userData = await userDoc.get();
 
-    if (userData.exists) {
-      if (mounted) {
-        setState(() {
-          rewardPoints = userData['rewardPoints'];
-        });
+      if (userData.exists) {
+        if (mounted) {
+          setState(() {
+            rewardPoints = userData['rewardTokens'];
+          });
+        }
       }
-    } 
+    }
   }
-}
 
   @override
   void initState() {
     super.initState();
     fetchUserData();
   }
-
 
   int showRewards = 0;
 
@@ -139,7 +136,8 @@ class RewardsState extends State<Rewards> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              showRewards = 1; // Update the value of showRewards
+                              showRewards =
+                                  1; // Update the value of showRewards
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -161,112 +159,119 @@ class RewardsState extends State<Rewards> {
                 const SizedBox(
                   height: 80,
                 ),
-
-
-                
-                
                 if (showRewards == 1) ...[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(20, 10, 0, 14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20, 10, 0, 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Get Rewarded',
+                            style: GoogleFonts.dmSans(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: const Color(0xFF333333),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle tap on "View all" text here
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
                             child: Text(
-                              'Get Rewarded',
+                              'View all',
+                              textAlign: TextAlign.right,
                               style: GoogleFonts.dmSans(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: const Color(0xFF333333),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: const Color(0xFF61AF2B),
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              // Handle tap on "View all" text here
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
-                              child: Text(
-                                'View all',
-                                textAlign: TextAlign.right,
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                  color: const Color(0xFF61AF2B),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 150,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            margin: const EdgeInsets.only(right: 10),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("₹50 Cashback", 
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                                Text("300 Tokens", 
-                                    style: TextStyle(fontSize: 14, color: Colors.white)),
-                              ],
-                            ),
+                  ),
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          Container(
-                            width: 150,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            margin: const EdgeInsets.only(right: 10),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Win up to ₹500", 
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                                Text("200 Tokens", 
-                                    style: TextStyle(fontSize: 14, color: Colors.white)),
-                              ],
-                            ),
+                          margin: const EdgeInsets.only(right: 10),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("₹50 Cashback",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                              Text("300 Tokens",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white)),
+                            ],
                           ),
-                          Container(
-                            width: 150,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            margin: const EdgeInsets.only(right: 10),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("₹100 Play Credits", 
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white)),
-                                Text("500 Tokens", 
-                                    style: TextStyle(fontSize: 14, color: Colors.white)),
-                              ],
-                            ),
+                        ),
+                        Container(
+                          width: 150,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-
-                        ],
-                      ),
+                          margin: const EdgeInsets.only(right: 10),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Win up to ₹500",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                              Text("200 Tokens",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 150,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          margin: const EdgeInsets.only(right: 10),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("₹100 Play Credits",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white)),
+                              Text("500 Tokens",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ],
+              ],
             ),
           ),
         ),
@@ -323,7 +328,10 @@ class RewardsState extends State<Rewards> {
               } else if (index == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchPage(initialQuery: '',)),
+                  MaterialPageRoute(
+                      builder: (context) => const SearchPage(
+                            initialQuery: '',
+                          )),
                 );
               } else if (index == 3) {
                 Navigator.push(

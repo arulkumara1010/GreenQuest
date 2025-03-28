@@ -17,7 +17,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   String address = '';
   String phone = '';
   int plantsPlanted = 0;
-  
+
   @override
   void initState() {
     super.initState();
@@ -82,7 +82,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   const CircleAvatar(
                     radius: 50,
                     backgroundImage: NetworkImage(
-                        'https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1224184972.1714521600&semt=ais'),
+                        'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1743152015~exp=1743155615~hmac=c9e1e09ed7237d0f1c8c5d92e07a19bf628936296d4ef99b0b3b46198389b331&w=826'),
                   ),
                   const SizedBox(height: 20),
                   Text(
@@ -96,7 +96,6 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 10),
-                 
                   const SizedBox(height: 10),
                   Text(
                     phone,
@@ -113,15 +112,17 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],                  ),
+                    ],
+                  ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to PlantGallery
                       Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage1()),
-                );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage1()),
+                      );
                     },
                     style: ButtonStyle(
                       backgroundColor:

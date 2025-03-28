@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -266,7 +268,9 @@ class HomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SearchPage(initialQuery: '',)));
+                                    builder: (context) => const SearchPage(
+                                          initialQuery: '',
+                                        )));
                           },
                           icon: const Icon(
                             CupertinoIcons.search,
@@ -343,7 +347,7 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const RootPage(
-                                    id:2,
+                                    id: 2,
                                   )));
                     },
                     child: _buildPlantBox(
@@ -370,59 +374,67 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       // Handle tap event here
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(initialQuery: 'Rose',),
-                      ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(
+                            initialQuery: 'Rose',
+                          ),
+                        ),
                       );
                     },
                     child: _buildCategoryItem(
-                      Icons.eco, 'Rose', 'A flower of love   '),
-                    ),
+                        Icons.eco, 'Rose', 'A flower of love   '),
+                  ),
                   GestureDetector(
                     onTap: () {
                       // Handle tap event here
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(initialQuery: 'Cactus',),
-                      ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(
+                            initialQuery: 'Cactus',
+                          ),
+                        ),
                       );
                     },
                     child: _buildCategoryItem(
-                      Icons.eco, 'Cactus', 'A poky desert plant'),
-                    ),
+                        Icons.eco, 'Cactus', 'A poky desert plant'),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                    GestureDetector(
-                    onTap: () {
-                      // Handle tap event here
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(initialQuery: 'Fir',),
-                      ),
-                      );
-                    },
-                    child: _buildCategoryItem(
-                      Icons.eco, 'Fir', 'A tall green tree  '),
-                    ),
                   GestureDetector(
                     onTap: () {
                       // Handle tap event here
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchPage(initialQuery: 'Palm',),
-                      ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(
+                            initialQuery: 'Fir',
+                          ),
+                        ),
                       );
                     },
                     child: _buildCategoryItem(
-                      Icons.eco, 'Palm', 'A tropical tree         '),
-                    ),
+                        Icons.eco, 'Fir', 'A tall green tree  '),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle tap event here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(
+                            initialQuery: 'Palm',
+                          ),
+                        ),
+                      );
+                    },
+                    child: _buildCategoryItem(
+                        Icons.eco, 'Palm', 'A tropical tree         '),
+                  ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -492,7 +504,10 @@ class HomePage extends StatelessWidget {
             if (index == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SearchPage(initialQuery: '',)),
+                MaterialPageRoute(
+                    builder: (context) => const SearchPage(
+                          initialQuery: '',
+                        )),
               );
             } else if (index == 2) {
               Navigator.push(
@@ -741,10 +756,23 @@ class HomePage extends StatelessWidget {
   ];
 }
 
-class AlertsPage extends StatelessWidget {
+class AlertsPage extends StatefulWidget {
   final List<Alert> alerts;
 
   const AlertsPage({Key? key, required this.alerts}) : super(key: key);
+
+  @override
+  _AlertsPageState createState() => _AlertsPageState();
+}
+
+class _AlertsPageState extends State<AlertsPage> {
+  late List<Alert> alerts;
+
+  @override
+  void initState() {
+    super.initState();
+    alerts = widget.alerts;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -802,9 +830,27 @@ class AlertsPage extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.grey,
+          // Complete Button
+          ElevatedButton(
+            onPressed: () {
+              // Increase the rewards count for the user
+              _increaseUserRewards();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'Complete',
+              style: GoogleFonts.dmSans(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),
@@ -824,5 +870,33 @@ class AlertsPage extends StatelessWidget {
       default:
         return Icons.info;
     }
+  }
+}
+
+void _increaseUserRewards() async {
+  try {
+    // Replace 'users' with your Firestore collection name
+    // Replace 'userId' with the actual user ID (e.g., from FirebaseAuth)
+    User? currentUser =
+        FirebaseAuth.instance.currentUser; // Replace with the actual user ID
+    DocumentReference userDoc =
+        FirebaseFirestore.instance.collection('users').doc(currentUser?.uid);
+
+    // Fetch the current reward tokens
+    DocumentSnapshot userSnapshot = await userDoc.get();
+    if (userSnapshot.exists) {
+      int currentRewards = userSnapshot['rewardTokens'] ?? 0;
+      print(currentRewards);
+      // Increment the reward tokens
+      int randomReward = (1 +
+          (49 * (new DateTime.now().millisecondsSinceEpoch % 1000) / 1000)
+              .floor());
+      await userDoc.update({'rewardTokens': currentRewards + randomReward});
+      print('Reward tokens updated successfully!');
+    } else {
+      print('User document does not exist.');
+    }
+  } catch (e) {
+    print('Error updating reward tokens: $e');
   }
 }
