@@ -156,7 +156,7 @@ class HomePage1 extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const Rewards()));
             } else if (index == 1) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SearchPage()));
+                  MaterialPageRoute(builder: (context) => const SearchPage(initialQuery: '',)));
             }
           },
           selectedLabelStyle: GoogleFonts.dmSans(

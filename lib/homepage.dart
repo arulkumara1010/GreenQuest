@@ -266,7 +266,7 @@ class HomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SearchPage()));
+                                    builder: (context) => const SearchPage(initialQuery: '',)));
                           },
                           icon: const Icon(
                             CupertinoIcons.search,
@@ -366,19 +366,63 @@ class HomePage extends StatelessWidget {
               }),
               Row(
                 children: [
-                  _buildCategoryItem(
-                      Icons.eco, 'Icon Title', 'Description line 1'),
-                  _buildCategoryItem(
-                      Icons.eco, 'Icon Title', 'Description line 1'),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle tap event here
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(initialQuery: 'Rose',),
+                      ),
+                      );
+                    },
+                    child: _buildCategoryItem(
+                      Icons.eco, 'Rose', 'A flower of love   '),
+                    ),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle tap event here
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(initialQuery: 'Cactus',),
+                      ),
+                      );
+                    },
+                    child: _buildCategoryItem(
+                      Icons.eco, 'Cactus', 'A poky desert plant'),
+                    ),
                 ],
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                  _buildCategoryItem(
-                      Icons.eco, 'Icon Title', 'Description line 1'),
-                  _buildCategoryItem(
-                      Icons.eco, 'Icon Title', 'Description line 1'),
+                    GestureDetector(
+                    onTap: () {
+                      // Handle tap event here
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(initialQuery: 'Fir',),
+                      ),
+                      );
+                    },
+                    child: _buildCategoryItem(
+                      Icons.eco, 'Fir', 'A tall green tree  '),
+                    ),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle tap event here
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(initialQuery: 'Palm',),
+                      ),
+                      );
+                    },
+                    child: _buildCategoryItem(
+                      Icons.eco, 'Palm', 'A tropical tree         '),
+                    ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -448,7 +492,7 @@ class HomePage extends StatelessWidget {
             if (index == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SearchPage()),
+                MaterialPageRoute(builder: (context) => const SearchPage(initialQuery: '',)),
               );
             } else if (index == 2) {
               Navigator.push(

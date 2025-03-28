@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'plantinfo.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String initialQuery;
+  const SearchPage({super.key, required this.initialQuery});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -18,6 +19,15 @@ class _SearchPageState extends State<SearchPage> {
   List<dynamic> _searchResults = [];
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialQuery.isNotEmpty) {
+      _searchController.text = widget.initialQuery;
+      _searchPlants(widget.initialQuery);
+    }
+  }
+
   Future<void> _searchPlants(String query) async {
     if (query.isEmpty) return;
 
@@ -27,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
 
     try {
       final url =
-          'https://perenual.com/api/v2/species-list?key=sk-9q5S67e5b04671b269453&q=$query';
+          'https://perenual.com/api/v2/species-list?key=sk-Ay3Q67e5a5db867849453&q=$query';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -74,6 +84,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           color: Colors.white,
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

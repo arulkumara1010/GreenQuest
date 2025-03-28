@@ -323,7 +323,7 @@ class RewardsState extends State<Rewards> {
               } else if (index == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SearchPage()),
+                  MaterialPageRoute(builder: (context) => const SearchPage(initialQuery: '',)),
                 );
               } else if (index == 3) {
                 Navigator.push(
