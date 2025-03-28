@@ -79,7 +79,8 @@ class Rewards extends StatelessWidget {
                           size: 25, // Adjust icon size as needed
                           color: Colors.green, // Change icon color as needed
                         ),
-                        const SizedBox(height: 10), // Add some space between elements
+                        const SizedBox(
+                            height: 10), // Add some space between elements
                         // Add the small text below the leaf icon
                         const Text(
                           'Eco Tokens',
@@ -218,9 +219,9 @@ class Rewards extends StatelessWidget {
                 label: 'Rewards',
               ),
               BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'My Plants',
-          ),
+                icon: Icon(Icons.bookmark),
+                label: 'My Plants',
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Profile',
@@ -243,16 +244,14 @@ class Rewards extends StatelessWidget {
               if (index == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  MaterialPageRoute(builder: (context) => HomePage()),
                 );
-              }
-              else if (index == 1) {
+              } else if (index == 1) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SearchPage()),
                 );
-              }
-              else if (index == 3) {
+              } else if (index == 3) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage1()),

@@ -12,29 +12,28 @@ class HomePage1 extends StatelessWidget {
   const HomePage1({super.key});
 
   @override
-  Widget build(BuildContext context) 
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
         color: Colors.white, // Subtle green background
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+          children: [
             Container(
               color: Colors.white,
               padding: const EdgeInsets.only(top: 40.0),
               child: Center(
-              child: Text(
-                'Green Quest',
-                style: GoogleFonts.dmSans(
-                textStyle: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
+                child: Text(
+                  'Green Quest',
+                  style: GoogleFonts.dmSans(
+                    textStyle: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                ),
-              ),
               ),
             ),
             const SizedBox(
@@ -43,127 +42,128 @@ class HomePage1 extends StatelessWidget {
             Text(
               'My Plants',
               style: GoogleFonts.dmSans(
-                fontSize: 24.0, fontWeight: FontWeight.bold),
+                  fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16.0),
             Expanded(
               child: FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .get(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-                }
-                if (!snapshot.hasData || snapshot.data == null) {
-                return const Center(child: Text('No saved plants found.'));
-                }
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data == null) {
+                    return const Center(child: Text('No saved plants found.'));
+                  }
 
-                final userData = snapshot.data!.data() as Map<String, dynamic>;
-                final savedPlants = userData['saved_plants'] as List<dynamic>?;
+                  final userData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  final savedPlants =
+                      userData['saved_plants'] as List<dynamic>?;
 
-                if (savedPlants == null || savedPlants.isEmpty) {
-                return const Center(child: Text('No saved plants found.'));
-                }
+                  if (savedPlants == null || savedPlants.isEmpty) {
+                    return const Center(child: Text('No saved plants found.'));
+                  }
 
-                return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                ),
-                itemCount: savedPlants.length,
-                itemBuilder: (context, index) {
-                  final plant = savedPlants[index] as Map<String, dynamic>;
-                  final plantId = plant['id'];
-                  final commonName = plant['commonName'];
-
-                  return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RootPage(id: plantId),
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.2,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
                     ),
-                    );
-                  },
-                  child: _buildPlantBox(
-                    'assets/images/aloe_vera_14.png', // Replace with actual image if available
-                    commonName,
-                  ),
+                    itemCount: savedPlants.length,
+                    itemBuilder: (context, index) {
+                      final plant = savedPlants[index] as Map<String, dynamic>;
+                      final plantId = plant['id'];
+                      final commonName = plant['commonName'];
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RootPage(id: plantId),
+                            ),
+                          );
+                        },
+                        child: _buildPlantBox(
+                          'assets/images/aloe_vera_14.png', // Replace with actual image if available
+                          commonName,
+                        ),
+                      );
+                    },
                   );
                 },
-                );
-              },
               ),
             ),
-            ],
-
+          ],
         ),
       ),
       bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            // Modify the colors as needed
-            canvasColor: Colors.white, // Background color
-            primaryColor: Colors.green, // Active item color
-            textTheme: Theme.of(context).textTheme.copyWith(),
-          ),
-          child: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star_border),
-            label: 'Rewards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'My Plants',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        selectedItemColor: Colors.green, // Customize as needed
-        unselectedItemColor: Colors.grey, // Customize as needed
-        currentIndex: 3, // Set initial index as needed
-        onTap: (index) {
-          // Handle navigation to different screens based on index
-          // For example:
-          // if (index == 0) {
-          //   // Navigate to Home screen
-          // } else if (index == 1) {
-          //   // Navigate to Search screen
-          // } ... and so on
-          if (index == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const HomePage()));
-          } else if (index == 4) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyAccountPage()));
-          } else if (index == 2) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Rewards()));
-          }
-          else if (index == 1) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const SearchPage()));
-          }
-        },
-        selectedLabelStyle: GoogleFonts.dmSans(
-            fontWeight: FontWeight.w700), // Custom font example
-        unselectedLabelStyle: GoogleFonts.dmSans(
-            fontWeight: FontWeight.w700), // Custom font example
-      ),
+        data: Theme.of(context).copyWith(
+          // Modify the colors as needed
+          canvasColor: Colors.white, // Background color
+          primaryColor: Colors.green, // Active item color
+          textTheme: Theme.of(context).textTheme.copyWith(),
+        ),
+        child: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Explore',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star_border),
+              label: 'Rewards',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark),
+              label: 'My Plants',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          selectedItemColor: Colors.green, // Customize as needed
+          unselectedItemColor: Colors.grey, // Customize as needed
+          currentIndex: 3, // Set initial index as needed
+          onTap: (index) {
+            // Handle navigation to different screens based on index
+            // For example:
+            // if (index == 0) {
+            //   // Navigate to Home screen
+            // } else if (index == 1) {
+            //   // Navigate to Search screen
+            // } ... and so on
+            if (index == 0) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else if (index == 4) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MyAccountPage()));
+            } else if (index == 2) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Rewards()));
+            } else if (index == 1) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const SearchPage()));
+            }
+          },
+          selectedLabelStyle: GoogleFonts.dmSans(
+              fontWeight: FontWeight.w700), // Custom font example
+          unselectedLabelStyle: GoogleFonts.dmSans(
+              fontWeight: FontWeight.w700), // Custom font example
+        ),
       ),
     );
   }
@@ -278,7 +278,8 @@ class PlantDetailPage extends StatelessWidget {
   final String description;
   final String imagePath;
 
-  const PlantDetailPage(this.plantName, this.description, this.imagePath, {super.key});
+  const PlantDetailPage(this.plantName, this.description, this.imagePath,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

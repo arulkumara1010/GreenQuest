@@ -9,9 +9,7 @@ import 'rewards.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
-
 import 'search_page.dart';
-
 import 'package:http/http.dart' as http;
 
 class PlantIdentificationScreen extends StatefulWidget {
@@ -27,7 +25,6 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isLoading = false;
 
-  // Method to open camera
   Future<void> _takePicture() async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
@@ -36,13 +33,10 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
         maxHeight: 1080,
         imageQuality: 80,
       );
-
       if (pickedFile != null) {
         setState(() {
           _imageFile = File(pickedFile.path);
         });
-
-        // Identify the plant
         await _identifyPlant();
       }
     } catch (e) {
@@ -51,7 +45,6 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
     }
   }
 
-  // Method to open gallery
   Future<void> _pickFromGallery() async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
@@ -60,13 +53,10 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
         maxHeight: 1080,
         imageQuality: 80,
       );
-
       if (pickedFile != null) {
         setState(() {
           _imageFile = File(pickedFile.path);
         });
-
-        // Identify the plant
         await _identifyPlant();
       }
     } catch (e) {
@@ -75,46 +65,32 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
     }
   }
 
-  // Method to show error snackbar
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
   }
 
-  // Method to identify plant
   Future<void> _identifyPlant() async {
     if (_imageFile == null) {
       _showErrorSnackBar('No image selected');
       return;
     }
-
     setState(() {
       _isLoading = true;
     });
-
     try {
-      // Prepare the multipart request
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
             'https://my-api.plantnet.org/v2/identify/all?api-key=2b10AAFEh22qI1Dq0IWaNgdxWe'),
       );
-
-      // Attach the image file
       request.files
           .add(await http.MultipartFile.fromPath('images', _imageFile!.path));
-
-      // Send the request
       var response = await request.send();
-
-      // Check if the request was successful
       if (response.statusCode == 200) {
-        // Parse the response
         var responseData = await response.stream.bytesToString();
         var jsonResponse = json.decode(responseData);
-
-        // Extract the best match
         String bestMatch = jsonResponse['bestMatch'] ?? 'Unknown';
         var results = jsonResponse['results'];
         if (results != null && results.isNotEmpty) {
@@ -122,8 +98,6 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
           String scientificName =
               topResult['species']['scientificName'] ?? 'Unknown';
           double score = topResult['score'] ?? 0.0;
-
-          // Show the result in an alert dialog
           await _showResultDialog(scientificName, score, bestMatch);
         } else {
           _showErrorSnackBar('No results found');
@@ -141,7 +115,6 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
     }
   }
 
-  // Method to show result dialog
   Future<void> _showResultDialog(
       String scientificName, double score, String bestMatch) async {
     return showDialog<void>(
@@ -228,8 +201,23 @@ class _PlantIdentificationScreenState extends State<PlantIdentificationScreen> {
   }
 }
 
+class Alert {
+  final String title;
+  final String description;
+  final String type; // e.g., 'care', 'weather', 'health', 'achievement'
+  final DateTime timestamp;
+
+  Alert({
+    required this.title,
+    required this.description,
+    required this.type,
+    required this.timestamp,
+  });
+}
+
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -330,48 +318,19 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(20, 0, 0, 14),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Popular plants',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: const Color(0xFF333333),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle tap on "View all" text here
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
-                        child: Text(
-                          'View all',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            color: const Color(0xFF61AF2B),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildSection('Popular plants', () {
+                // Handle tap on "View all" text here
+              }),
               Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage(id: 1,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage(
+                                    id: 1,
+                                  )));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_14.png',
@@ -380,16 +339,18 @@ class HomePage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const RootPage(id: 10,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RootPage(
+                                    id: 10,
+                                  )));
                     },
                     child: _buildPlantBox(
                       'assets/images/aloe_vera_12.png',
                       'Pyramidalis',
                     ),
                   ),
-
-                  // Add more plant boxes here as needed
                 ],
               ),
               Padding(
@@ -400,193 +361,24 @@ class HomePage extends StatelessWidget {
                   color: const Color(0xFFCBCACA),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(20, 10, 0, 14),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Categories',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: const Color(0xFF333333),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle tap on "View all" text here
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
-                        child: Text(
-                          'View all',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            color: const Color(0xFF61AF2B),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildSection('Categories', () {
+                // Handle tap on "View all" text here
+              }),
               Row(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Align vertically centered
-                    children: [
-                      Text(
-                        'Icon Title',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Description line 1',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Align vertically centered
-                    children: [
-                      Text(
-                        'Icon Title',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Description line 1',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildCategoryItem(
+                      Icons.eco, 'Icon Title', 'Description line 1'),
+                  _buildCategoryItem(
+                      Icons.eco, 'Icon Title', 'Description line 1'),
                 ],
               ),
               const SizedBox(height: 20),
               Row(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Align vertically centered
-                    children: [
-                      Text(
-                        'Icon Title',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Description line 1',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Align vertically centered
-                    children: [
-                      Text(
-                        'Icon Title',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Description line 1',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildCategoryItem(
+                      Icons.eco, 'Icon Title', 'Description line 1'),
+                  _buildCategoryItem(
+                      Icons.eco, 'Icon Title', 'Description line 1'),
                 ],
               ),
               const SizedBox(height: 15),
@@ -598,258 +390,130 @@ class HomePage extends StatelessWidget {
                   color: const Color(0xFFCBCACA),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(20, 10, 0, 14),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Today\'s Alerts',
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: const Color(0xFF333333),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle tap on "View all" text here
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
-                        child: Text(
-                          'View all',
-                          textAlign: TextAlign.right,
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                            color: const Color(0xFF61AF2B),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+              _buildSection('Today\'s Alerts', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AlertsPage(alerts: _mockAlerts),
+                  ),
+                );
+              }),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  itemCount: _mockAlerts.length,
+                  itemBuilder: (context, index) {
+                    Alert alert = _mockAlerts[index];
+                    return _buildAlertItem(alert);
+                  },
                 ),
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Icon Title',
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Description line 1',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(width: 20), // Right arrow
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Icon Title',
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Description line 1',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(width: 20), // Right arrow
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.green
-                          .withOpacity(0.1), // Adjust color as needed
-                    ),
-                    child: const Icon(
-                      Icons.eco,
-                      color: Colors.green, // Adjust color as needed
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Icon Title',
-                          style: GoogleFonts.dmSans(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Description line 1',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(width: 20), // Right arrow
-                ],
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            // Modify the colors as needed
-            canvasColor: Colors.white, // Background color
-            primaryColor: Colors.green, // Active item color
-            textTheme: Theme.of(context).textTheme.copyWith(),
-          ),
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.white,
+          primaryColor: Colors.green,
+        ),
         child: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Explore',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star_border),
+              label: 'Rewards',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark),
+              label: 'My Plants',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.green,
+          unselectedItemColor: Colors.grey,
+          currentIndex: 0,
+          onTap: (index) {
+            if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SearchPage()),
+              );
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Rewards()),
+              );
+            } else if (index == 3) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage1()),
+              );
+            } else if (index == 4) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyAccountPage()),
+              );
+            }
+          },
+          selectedLabelStyle: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+          unselectedLabelStyle: GoogleFonts.dmSans(fontWeight: FontWeight.w700),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSection(String title, VoidCallback onViewAllTap) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20, 10, 0, 14),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                color: const Color(0xFF333333),
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star_border),
-            label: 'Rewards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'My Plants',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+          GestureDetector(
+            onTap: onViewAllTap,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 6, 20, 1),
+              child: Text(
+                'View all',
+                textAlign: TextAlign.right,
+                style: GoogleFonts.dmSans(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: const Color(0xFF61AF2B),
+                ),
+              ),
+            ),
           ),
         ],
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.green, // Customize as needed
-        unselectedItemColor: Colors.grey, // Customize as needed
-        currentIndex: 0, // Set initial index as needed
-        onTap: (index) {
-          // Handle navigation to different screens based on index
-          // For example:
-          // if (index == 0) {
-          //   // Navigate to Home screen
-          if (index == 1) {
-             // Navigate to Search screen
-             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const SearchPage()));
-
-           }
-          else if (index == 2) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const Rewards()));
-          }
-          if (index == 3) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage1()));
-          } else if (index == 4) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MyAccountPage()));
-          }
-        },
-        selectedLabelStyle: GoogleFonts.dmSans(
-            fontWeight: FontWeight.w700), // Custom font example
-        unselectedLabelStyle: GoogleFonts.dmSans(
-            fontWeight: FontWeight.w700), // Custom font example
-      ),
       ),
     );
   }
 
   Widget _buildPlantBox(String imagePath, String plantName) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10), // Adjust margin as needed
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: SizedBox(
         width: 186,
         child: Container(
@@ -913,5 +577,208 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildCategoryItem(IconData icon, String title, String description) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20, 0, 10, 0),
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: Colors.green.withOpacity(0.1),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.green),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.dmSans(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAlertItem(Alert alert) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              _getAlertIcon(alert.type),
+              color: Colors.green,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  alert.title,
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  alert.description,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          const Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getAlertIcon(String type) {
+    switch (type) {
+      case 'care':
+        return Icons.water_drop;
+      case 'weather':
+        return Icons.cloud;
+      case 'health':
+        return Icons.warning;
+      case 'achievement':
+        return Icons.star;
+      default:
+        return Icons.info;
+    }
+  }
+
+  List<Alert> _mockAlerts = [
+    Alert(
+      title: 'Water Your Plants',
+      description: 'Your plants need watering today.',
+      type: 'care',
+      timestamp: DateTime.now(),
+    ),
+    Alert(
+      title: 'Rain Expected Tomorrow',
+      description: 'Heavy rain expected. Protect your outdoor plants.',
+      type: 'weather',
+      timestamp: DateTime.now().subtract(const Duration(hours: 2)),
+    ),
+  ];
+}
+
+class AlertsPage extends StatelessWidget {
+  final List<Alert> alerts;
+
+  const AlertsPage({Key? key, required this.alerts}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('All Alerts'),
+      ),
+      body: ListView.builder(
+        itemCount: alerts.length,
+        itemBuilder: (context, index) {
+          Alert alert = alerts[index];
+          return _buildAlertItem(alert);
+        },
+      ),
+    );
+  }
+
+  Widget _buildAlertItem(Alert alert) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              _getAlertIcon(alert.type),
+              color: Colors.green,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  alert.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  alert.description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          const Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getAlertIcon(String type) {
+    switch (type) {
+      case 'care':
+        return Icons.water_drop;
+      case 'weather':
+        return Icons.cloud;
+      case 'health':
+        return Icons.warning;
+      case 'achievement':
+        return Icons.star;
+      default:
+        return Icons.info;
+    }
   }
 }

@@ -22,10 +22,8 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login UI',
-      
       home: LoginPage(),
     );
-    
   }
 }
 
@@ -57,9 +55,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.green
-              ),
+              decoration: const BoxDecoration(color: Colors.green),
             ),
             Container(
               color: Colors.black.withOpacity(0.5),
@@ -179,8 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'Forgot password?',
                           style: GoogleFonts.inter(
-                              color: Colors.green,
-                              fontWeight: FontWeight.w500),
+                              color: Colors.green, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
@@ -270,10 +265,10 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       // On successful login, check the completedSetup flag in Firestore
-    Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     } on FirebaseAuthException {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

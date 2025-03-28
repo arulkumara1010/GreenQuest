@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         textTheme: GoogleFonts.dmSansTextTheme(),
       ),
-      home: const RootPage(id: 1,),
+      home: const RootPage(
+        id: 1,
+      ),
     );
   }
 }
-
-
 
 class Plant {
   final int id;
@@ -52,7 +52,6 @@ class Plant {
     required this.description,
     required this.care_level,
     required this.dimension,
-
   });
 
   factory Plant.fromJson(Map<String, dynamic> json) {
@@ -68,7 +67,6 @@ class Plant {
       description: json['description'] ?? 'Unknown Description',
       care_level: json['care_level'] ?? 'Unknown Care Level',
       dimension: json['dimension'] ?? 'Unknown Dimension',
-
     );
   }
 }
@@ -81,8 +79,6 @@ class RootPage extends StatefulWidget {
   @override
   State<RootPage> createState() => _RootPageState(id);
 }
-
-
 
 class _RootPageState extends State<RootPage> {
   final int id;
@@ -113,10 +109,8 @@ class _RootPageState extends State<RootPage> {
     }
   }
 
-  
-
   String name = '';
-  
+
   Future<void> fetchUserData() async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -128,7 +122,6 @@ class _RootPageState extends State<RootPage> {
         if (userData.exists) {
           setState(() {
             name = userData['name'];
-            
           });
         }
       }
@@ -136,10 +129,6 @@ class _RootPageState extends State<RootPage> {
       print("Error fetching user data: $e");
     }
   }
-
-
-
-
 
   @override
   void initState() {
@@ -150,7 +139,8 @@ class _RootPageState extends State<RootPage> {
   }
 
   Future<void> fetchPlantData(int id) async {
-    final url = 'https://perenual.com/api/species/details/$id?key=sk-Ay3Q67e5a5db867849453';
+    final url =
+        'https://perenual.com/api/species/details/$id?key=sk-9q5S67e5b04671b269453';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -213,37 +203,31 @@ class _RootPageState extends State<RootPage> {
                 SizedBox(
                   height: screenHeight * 0.17,
                   child: SingleChildScrollView(
-                  child: Column(
+                      child: Column(
                     children: [
                       Text(
-                    'Description : ${plant?.description ?? 'Unknown'}',
-                    style: GoogleFonts.inter(fontSize: 12),
-                  ),
-                    Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Scientific Name: ${plant?.scientificName.join(', ')}\n'
-                      'Other Names: ${plant?.otherName.join(', ')}\n'
-                      'Cycle: ${plant?.cycle}\n'
-                      'Watering: ${plant?.watering}\n'
-                      'Sunlight: ${plant?.sunlight.join(', ')}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w200),
-                    ),
-                    ),
-
-
+                        'Description : ${plant?.description ?? 'Unknown'}',
+                        style: GoogleFonts.inter(fontSize: 12),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Scientific Name: ${plant?.scientificName.join(', ')}\n'
+                          'Other Names: ${plant?.otherName.join(', ')}\n'
+                          'Cycle: ${plant?.cycle}\n'
+                          'Watering: ${plant?.watering}\n'
+                          'Sunlight: ${plant?.sunlight.join(', ')}',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w200),
+                        ),
+                      ),
                     ],
-                  )
-                  ),
+                  )),
                 ),
                 const SizedBox(height: 7),
-                
                 const SizedBox(height: 7),
-                
-                
                 const SizedBox(height: 10),
               ],
             ),
@@ -253,11 +237,14 @@ class _RootPageState extends State<RootPage> {
             left: 16,
             child: Row(
               children: [
-                _buildTagContainer(plant?.cycle ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer(
+                    plant?.cycle ?? 'Unknown', '#F0F3F6', '#696969'),
                 const SizedBox(width: 10),
-                _buildTagContainer(plant?.watering ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer(
+                    plant?.watering ?? 'Unknown', '#F0F3F6', '#696969'),
                 const SizedBox(width: 10),
-                _buildTagContainer(plant?.scientificName.first ?? 'Unknown', '#F0F3F6', '#696969'),
+                _buildTagContainer(plant?.scientificName.first ?? 'Unknown',
+                    '#F0F3F6', '#696969'),
               ],
             ),
           ),
@@ -267,7 +254,11 @@ class _RootPageState extends State<RootPage> {
             child: Row(
               children: [
                 _buildFeatureBox(
-                    Icons.height, 'Height',plant?.dimension.split(': ')[1] ?? 'N/A', '#EEF7E8', '#4B8364'),
+                    Icons.height,
+                    'Height',
+                    plant?.dimension.split(': ')[1] ?? 'N/A',
+                    '#EEF7E8',
+                    '#4B8364'),
                 const SizedBox(width: 65),
                 _buildFeatureBox(Icons.water_drop, 'Water',
                     plant?.watering ?? 'N/A', '#E6EAFA', '#5676DC'),
@@ -279,11 +270,11 @@ class _RootPageState extends State<RootPage> {
             left: 16,
             child: Row(
               children: [
-                _buildFeatureBox(
-                    Icons.sunny, 'Light', plant?.sunlight.first ?? 'N/A', '#FCF1E3', '#E6B44C'),
+                _buildFeatureBox(Icons.sunny, 'Light',
+                    plant?.sunlight.first ?? 'N/A', '#FCF1E3', '#E6B44C'),
                 const SizedBox(width: 65),
-                _buildFeatureBox(Icons.eco, 'Care Level', plant?.care_level ?? 'N/A',
-                    '#F8E8F8', '#A559D9'),
+                _buildFeatureBox(Icons.eco, 'Care Level',
+                    plant?.care_level ?? 'N/A', '#F8E8F8', '#A559D9'),
               ],
             ),
           ),
@@ -305,39 +296,38 @@ class _RootPageState extends State<RootPage> {
             left: 16,
             right: 16,
             child: ElevatedButton(
-                onPressed: () {
+              onPressed: () {
                 setState(() {
                   counter = counter == 0 ? 1 : 0;
                   if (counter == 1) {
-                  User? currentUser = FirebaseAuth.instance.currentUser;
-                  if (currentUser != null && plant != null) {
-                    FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(currentUser.uid)
-                      .update({
-                    'saved_plants': FieldValue.arrayUnion([
-                      {'id': plant!.id, 'commonName': plant!.commonName}
-                    ])
-                    });
-                  }
+                    User? currentUser = FirebaseAuth.instance.currentUser;
+                    if (currentUser != null && plant != null) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(currentUser.uid)
+                          .update({
+                        'saved_plants': FieldValue.arrayUnion([
+                          {'id': plant!.id, 'commonName': plant!.commonName}
+                        ])
+                      });
+                    }
                   } else {
-                  User? currentUser = FirebaseAuth.instance.currentUser;
-                  if (currentUser != null && plant != null) {
-                    FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(currentUser.uid)
-                      .update({
-                    'saved_plants': FieldValue.arrayRemove([
-                      {'id': plant!.id, 'commonName': plant!.commonName}
-                    ])
-                    });
-                  }
+                    User? currentUser = FirebaseAuth.instance.currentUser;
+                    if (currentUser != null && plant != null) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(currentUser.uid)
+                          .update({
+                        'saved_plants': FieldValue.arrayRemove([
+                          {'id': plant!.id, 'commonName': plant!.commonName}
+                        ])
+                      });
+                    }
                   }
                 });
-                },
+              },
               style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(HexColor('#61AF2B')),
+                backgroundColor: WidgetStateProperty.all(HexColor('#61AF2B')),
                 shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),

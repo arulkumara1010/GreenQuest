@@ -27,7 +27,7 @@ class _SearchPageState extends State<SearchPage> {
 
     try {
       final url =
-          'https://perenual.com/api/v2/species-list?key=sk-Ay3Q67e5a5db867849453&q=$query';
+          'https://perenual.com/api/v2/species-list?key=sk-9q5S67e5b04671b269453&q=$query';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -168,8 +168,8 @@ class _SearchPageState extends State<SearchPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RootPage(id: plantData['id'])
-                                  ),
+                                      builder: (context) =>
+                                          RootPage(id: plantData['id'])),
                                 );
                               },
                               child: _buildPlantBox(
