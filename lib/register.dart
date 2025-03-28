@@ -202,6 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'phone': phone,
         'dob': dob,
         'gender': gender,
+        'rewardPoints': 0,
       });
 
       await user?.updateDisplayName(name);
