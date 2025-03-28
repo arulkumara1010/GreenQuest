@@ -203,7 +203,9 @@ class HomePage1 extends StatelessWidget {
                 child: SizedBox(
                   height: 63,
                   child: Text(
-                    plantName,
+                    plantName.length > 10
+                        ? '${plantName.substring(0, 10)}\n${plantName.substring(10)}'
+                        : plantName,
                     style: GoogleFonts.dmSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -257,14 +259,18 @@ class HomePage1 extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+            Positioned(
             bottom: 10.0,
             left: 10.0,
             child: Text(
-              plantName,
+              plantName.length > 10
+                ? '${plantName.substring(0, 10)}\n${plantName.substring(10)}'
+                : plantName,
               style: TextStyle(color: Colors.white, fontSize: 18.0, shadows: [
-                Shadow(blurRadius: 3.0, color: Colors.black.withOpacity(0.5))
+              Shadow(blurRadius: 3.0, color: Colors.black.withOpacity(0.5))
               ]),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

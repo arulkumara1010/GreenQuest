@@ -343,7 +343,7 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const RootPage(
-                                    id: 10,
+                                    id:2,
                                   )));
                     },
                     child: _buildPlantBox(
