@@ -1,0 +1,2 @@
+/Users/narensiddharth/Downloads/green_quest/android/app/.cxx/Debug/3z4d2i6n/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/narensiddharth/Downloads/green_quest/android/app/.cxx/Debug/3z4d2i6n/armeabi-v7a/CMakeFiles/rebuild_cache.dir

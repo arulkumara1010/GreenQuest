@@ -72,11 +72,13 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          padding: const EdgeInsets.all(16.0),
           color: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
+                
                 color: Colors.white,
                 padding: const EdgeInsets.only(top: 40.0),
                 child: Center(

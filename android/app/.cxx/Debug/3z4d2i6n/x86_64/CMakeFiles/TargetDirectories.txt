@@ -1,0 +1,2 @@
+/Users/narensiddharth/Downloads/green_quest/android/app/.cxx/Debug/3z4d2i6n/x86_64/CMakeFiles/edit_cache.dir
+/Users/narensiddharth/Downloads/green_quest/android/app/.cxx/Debug/3z4d2i6n/x86_64/CMakeFiles/rebuild_cache.dir
